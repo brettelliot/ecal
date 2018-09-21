@@ -189,5 +189,6 @@ epub_title = project
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
 
+exclude_patterns = ['modules.rst', 'ecal.rst']
 
 # -- Extension configuration -------------------------------------------------

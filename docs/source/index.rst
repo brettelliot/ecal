@@ -4,7 +4,7 @@
     :maxdepth: 1
 
     Overview <self>
-    API <ecal>
+    API <api>
     contributing
     credits
     references
