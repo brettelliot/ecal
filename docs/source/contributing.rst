@@ -66,11 +66,11 @@ To test the package from test.pypi.org, create a new virtual env, install the pa
 
     $ rm -rf ~/.virtualenvs/ecal_test_pypi
     $ mkvirtualenv ecal_test_pypi
-    $ python3 -m pip install --no-cache-dir --extra-index-url https://test.pypi.org/simple/ be-earnings-calendar
+    $ python3 -m pip install --no-cache-dir --extra-index-url https://test.pypi.org/simple/ ecal
     $ python
-    >>> import be_earnings_calendar as ecal
+    >>> import ecal
     >>> ecal.name
-    'be_earnings_calendar'
+    'ecal'
 
 Upload the package to the real pypi.org website::
 
@@ -80,8 +80,8 @@ To test the package from pypi.org, create a new virtual env, install the package
 
     $ rm -rf ~/.virtualenvs/ecal_pypi
     $ mkvirtualenv ecal_pypi
-    $ pip install --no-cache-dir be-earnings-calendar
+    $ pip install --no-cache-dir ecal
     $ python
-    >>> import be_earnings_calendar as ecal
+    >>> import ecal
     >>> ecal.name
-    'be_earnings_calendar'
+    'ecal'

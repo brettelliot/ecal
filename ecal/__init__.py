@@ -7,6 +7,8 @@ import pandas as pd
 from .abstract_fetcher import AbstractFetcher
 from .http_fetcher import HttpFetcher
 
+name = 'ecal'
+
 __all__ = [
     'get',
     'AbstractFetcher',
