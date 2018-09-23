@@ -5,14 +5,14 @@ import pandas as pd
 from .abstract_fetcher import AbstractFetcher
 
 __all__ = [
-    'HttpFetcher'
+    'ECNFetcher'
 ]
 
 
-class HttpFetcher(AbstractFetcher):
+class ECNFetcher(AbstractFetcher):
     """This class fetches earnings announcements from ``api.earningscalendar.net``.
 
-    One of the main things HttpFetcher does is prevent calling the API too many times to prevent throttling.
+    One of the main things ECNFetcher does is prevent calling the API too many times to prevent throttling.
     """
 
     def __init__(self, rate_limit=1.5):

@@ -114,3 +114,4 @@ cache.sqlite
 
 # project files
 config.ini
+ecal.db
