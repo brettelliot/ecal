@@ -21,17 +21,17 @@ The results will be an earnings calendar in a pandas Dataframe:
 
 .. code-block:: python
 
-               ticker when  market_cap_mm
+               ticker when
     date
-    2017-03-30   AEHR  amc             54
-    2017-03-30   ANGO  bmo            843
-    2017-03-30   BSET   --            227
-    2017-03-30     FC  amc            325
-    2017-03-30    LNN  bmo           1039
-    2017-03-30   SAIC  bmo           3249
-    2017-03-30   TITN  bmo            384
+    2017-03-30   AEHR  amc
+    2017-03-30   ANGO  bmo
+    2017-03-30   BSET   --
+    2017-03-30     FC  amc
+    2017-03-30    LNN  bmo
+    2017-03-30   SAIC  bmo
+    2017-03-30   TITN  bmo
 
-The ``market_cap_mm`` will be different for you when you run this. That is because the API returns the market cap at the time it was called and not on the earnings announcement date. That may be important if you use this for backtesting.
+``ecal.get`` uses the ``ECNFetcher`` by default. It fetches earnings announcements from ``api.earningscalendar.net1``. However, ``ecal`` supports using other fetchers by deriving from ``AbstractFetcher``.
 
 Let's look at an example to get the earnings calendar for a range of dates:
 
@@ -40,23 +40,29 @@ Let's look at an example to get the earnings calendar for a range of dates:
 
 .. code-block:: python
 
-               ticker when  market_cap_mm
+               ticker when
     date
-    2018-01-04    CMC  bmo           2523
-    2018-01-04   LNDC  amc            372
-    2018-01-04   NEOG  bmo           4728
-    2018-01-04    RAD  amc           1419
-    2018-01-04   RECN  amc            526
-    2018-01-04    UNF  bmo           3365
-    2018-01-05   AEHR  amc             54
-    2018-01-05   ANGO  bmo            843
-    2018-01-05     FC  amc            325
-    2018-01-05     LW  bmo           9556
-    2018-01-05    PKE  bmo            393
-    2018-01-05   PSMT  amc           2547
-    2018-01-05    RPM  bmo           9003
-    2018-01-05   SONC  amc           1316
-    2018-01-05    WBA  bmo          70739
+    2018-01-04    CMC  bmo
+    2018-01-04   LNDC  amc
+    2018-01-04   NEOG  bmo
+    2018-01-04    RAD  amc
+    2018-01-04   RECN  amc
+    2018-01-04    UNF  bmo
+    2018-01-05   AEHR  amc
+    2018-01-05   ANGO  bmo
+    2018-01-05     FC  amc
+    2018-01-05     LW  bmo
+    2018-01-05    PKE  bmo
+    2018-01-05   PSMT  amc
+    2018-01-05    RPM  bmo
+    2018-01-05   SONC  amc
+    2018-01-05    WBA  bmo
 
 This example will take about 8 seconds to run. This is because ``ecal`` throttles the calls to the API to prevent rate limiting.
 
+By default ``ecal`` will use a ``RuntimeCache`` to keep data in memory and make repeated calls to ``ecal.get`` go much quicker. This example demonstrates the default ``RuntimeCache``:
+
+.. literalinclude:: ../../examples/example_runtime_cache.py
+    :language: python
+
+``ecal`` supports using other cache systems by deriving from ``AbstractCache``.
