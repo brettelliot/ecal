@@ -19,7 +19,7 @@ class ECNFetcher(AbstractFetcher):
         """
         Args:
 
-            * rate_limit (float): The time (in seconds) to wait in between calls to the API.
+            rate_limit (float): The time (in seconds) to wait in between calls to the API.
         """
         self._rate_limit = rate_limit
         self._last_call_time = time.time()
@@ -28,15 +28,15 @@ class ECNFetcher(AbstractFetcher):
         """Returns the earnings calendar as a pandas DataFrame.
 
         Args:
-            * start_date_str (str): The start date of the earnings calendar in
+            start_date_str (str): The start date of the earnings calendar in
               the format ``YYYY-MM-DD``.
-            * end_date_str (str): The end date of the earnings calendar in
+            end_date_str (str): The end date of the earnings calendar in
               the format ``YYYY-MM-DD``. If left out, we will fetch only the
               announcements for the start date.
 
         Returns:
-            * DataFrame: Returns a pandas DataFrame indexed by 'date',
-              that has columns: 'ticker', 'when', and 'market_cap_mm'
+            DataFrame: Returns a pandas DataFrame indexed by 'date',
+              that has columns: 'ticker', and 'when'
               and a row for each announcement.
         """
 
@@ -50,10 +50,10 @@ class ECNFetcher(AbstractFetcher):
             date_str = single_date.strftime("%Y-%m-%d")
             results = self._earnings_announcements_for_date(date_str)
             for result in results:
-                row = [date_str, result['ticker'], result['when'], result['market_cap_mm']]
+                row = [date_str, result['ticker'], result['when']]
                 announcements_list.append(row)
 
-        df = pd.DataFrame(announcements_list, columns=['date', 'ticker', 'when', 'market_cap_mm'])
+        df = pd.DataFrame(announcements_list, columns=['date', 'ticker', 'when'])
         df.set_index('date', inplace=True)
         return df
 
@@ -62,10 +62,10 @@ class ECNFetcher(AbstractFetcher):
         Return a list of earnings announcements for a date.
 
         Args:
-            * date_str (str): A date in the format ``YYYY-MM-DD``
+            date_str (str): A date in the format ``YYYY-MM-DD``
 
         Returns:
-            * list: A list of earnings announcements for a date.
+            list: A list of earnings announcements for a date.
 
                 .. code-block:: python
 

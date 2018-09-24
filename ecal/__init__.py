@@ -1,10 +1,8 @@
 """A package for getting a US equity earnings announcement calendar.
-
-.. moduleauthor:: Brett Elliot <brett@theelliots.net>
-
 """
 import pandas as pd
 from .abstract_fetcher import AbstractFetcher
+from .runtime_cache import AbstractCache
 from .ecn_fetcher import ECNFetcher
 from .runtime_cache import RuntimeCache
 
@@ -31,33 +29,32 @@ def get(start_date_str, end_date_str=None, fetcher=None, cache=_default_cache):
     This function returns an earnings announcement calendar as a DataFrame.
 
     Args:
-        * fetcher (AbstractFetcher): The fetcher to use for downloading data.
+        fetcher (AbstractFetcher): The fetcher to use for downloading data.
           If no fetcher is provided, it will use ``_default_fetcher``.
           There must be a fetcher (you do want an earnings calendar don't you?).
-        * cache (AbstractCache): The cache to use for storing data.
+        cache (AbstractCache): The cache to use for storing data.
           If no cache is provided, it will use ``_default_cache``.
           Pass ``None`` to not cache anything.
-        * start_date_str (str): The start date of the earnings calendar in
+        start_date_str (str): The start date of the earnings calendar in
           the format ``YYYY-MM-DD``.
-        * end_date_str (str): The end date of the earnings calendar in
+        end_date_str (str): The end date of the earnings calendar in
           the format ``YYYY-MM-DD``. If left out, we will fetch only the
           announcements for the start date.
 
     Returns:
-        * DataFrame: Returns a pandas DataFrame  indexed by 'date',
-          that has columns: 'ticker', 'when', and 'market_cap_mm'
-          and a row for each announcement:
+        DataFrame: Returns a pandas DataFrame  indexed by 'date',
+          that has columns: 'ticker', and 'when' and a row for each announcement:
 
             .. code-block:: python
 
-                           ticker when  market_cap_mm
+                           ticker when
                 date
-                2018-01-04    CMC  bmo           2475
-                2018-01-04   LNDC  amc            362
-                2018-01-04   NEOG  bmo           5002
-                2018-01-04    RAD  amc           1376
-                2018-01-04   RECN  amc            551
-                2018-01-04    UNF  bmo           3567
+                2018-01-04    CMC  bmo
+                2018-01-04   LNDC  amc
+                2018-01-04   NEOG  bmo
+                2018-01-04    RAD  amc
+                2018-01-04   RECN  amc
+                2018-01-04    UNF  bmo
 
     """
 
@@ -77,7 +74,7 @@ def get(start_date_str, end_date_str=None, fetcher=None, cache=_default_cache):
         # Check the cache to make sure it has all the announcements for the date range
         missing_dates = cache.check_for_missing_dates(date_list)
 
-        col_names = ['date', 'ticker', 'when', 'market_cap_mm']
+        col_names = ['date', 'ticker', 'when']
         uncached_announcements_df = pd.DataFrame(columns=col_names)
         uncached_announcements_df = uncached_announcements_df.set_index('date')
 
@@ -89,26 +86,3 @@ def get(start_date_str, end_date_str=None, fetcher=None, cache=_default_cache):
 
         return cache.fetch_calendar(start_date_str, end_date_str)
 
-
-class AbstractFetcher(object):
-    """Abstract base class for earnings calendar fetchers."""
-
-    def __init__(self):
-        raise NotImplementedError('AbstractFetcher is an abstract base class')
-
-    def fetch_calendar(self, start_date_str, end_date_str=None):
-        """Implement this method! Your method should returns pandas DataFrame.
-
-        Args:
-            * start_date_str (str): The start date of the earnings calendar in
-              the format ``YYYY-MM-DD``.
-            * end_date_str (str): The end date of the earnings calendar in
-              the format ``YYYY-MM-DD``. If left out, we will fetch only the
-              announcements for the start date.
-
-        Returns:
-            * DataFrame: Returns a pandas DataFrame indexed by 'date',
-              that has columns: 'ticker', 'when', and 'market_cap_mm'
-              and a row for each announcement.
-        """
-        raise NotImplementedError('AbstractFetcher is an abstract base class')

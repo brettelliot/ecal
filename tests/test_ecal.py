@@ -8,12 +8,11 @@ class MockFetcher(ecal.AbstractFetcher):
     def __init__(self):
         sample_dict = {'ticker': ['CMC', 'LNDC', 'NEOG', 'RAD', 'RECN', 'UNF'],
                          'when': ['bmo', 'amc', 'bmo', 'amc', 'amc', 'bmo'],
-                         'market_cap_mm': [2495, 357, 4867, 1387, 536, 3519],
                          'date': ['2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04']}
 
         sample_df = pd.DataFrame.from_dict(sample_dict)
         sample_df = sample_df.set_index('date')
-        sample_df = sample_df[['ticker', 'when', 'market_cap_mm']]
+        sample_df = sample_df[['ticker', 'when']]
         self.calendar_df = sample_df
 
     def fetch_calendar(self, start_date_str, end_date_str=None):
@@ -34,12 +33,11 @@ class TestEcalGet(unittest.TestCase):
 
         expected_dict = {'ticker': ['CMC', 'LNDC', 'NEOG', 'RAD', 'RECN', 'UNF'],
                          'when': ['bmo', 'amc', 'bmo', 'amc', 'amc', 'bmo'],
-                         'market_cap_mm': [2495, 357, 4867, 1387, 536, 3519],
                          'date': ['2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04']}
 
         expected_df = pd.DataFrame.from_dict(expected_dict)
         expected_df = expected_df.set_index('date')
-        expected_df = expected_df[['ticker', 'when', 'market_cap_mm']]
+        expected_df = expected_df[['ticker', 'when']]
 
         assert(actual_df.index.equals(expected_df.index))
         assert(actual_df['ticker'].equals(expected_df['ticker']))

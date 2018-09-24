@@ -35,7 +35,7 @@ class AbstractCache(object):
             * missing_dates (list): The dates that were fetched and should be added to the cache index.
               Even dates that have no data should be added to the cache index so that if requested again, we return
               nothing for them without using the fetcher.
-            * uncached_announcements (DataFrame): A Dataframe containing uncached announcements that should be added
+            * uncached_announcements (DataFrame): A DataFrame containing uncached announcements that should be added
               to the cache.
         """
         raise NotImplementedError('AbstractCache is an abstract base class')

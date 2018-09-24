@@ -11,12 +11,11 @@ class MockRuntimeCache(ecal.RuntimeCache):
         # Seed the cache with some data
         sample_dict = {'ticker': ['CMC', 'LNDC', 'NEOG', 'RAD', 'RECN', 'UNF'],
                          'when': ['bmo', 'amc', 'bmo', 'amc', 'amc', 'bmo'],
-                         'market_cap_mm': [2495, 357, 4867, 1387, 536, 3519],
                          'date': ['2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04']}
 
         sample_df = pd.DataFrame.from_dict(sample_dict)
         sample_df = sample_df.set_index('date')
-        sample_df = sample_df[['ticker', 'when', 'market_cap_mm']]
+        sample_df = sample_df[['ticker', 'when']]
         self._cache_df = sample_df
 
         # Add the date to the cache set
@@ -48,12 +47,11 @@ class TestRuntimeCache(unittest.TestCase):
         #print(uncached_announcements.to_dict(orient='list'))
         uncached_announcements = {'ticker': ['AEHR', 'ANGO', 'FC', 'LW', 'PKE', 'PSMT', 'RPM', 'SONC', 'WBA'],
                        'when': ['amc', 'bmo', 'amc', 'bmo', 'bmo', 'amc', 'bmo', 'amc', 'bmo'],
-                       'market_cap_mm': [56, 868, 326, 9683, 400, 2598, 9031, 1327, 72337],
                        'date': ['2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05',
                                 '2018-01-05', '2018-01-05', '2018-01-05']}
         uncached_announcements = pd.DataFrame.from_dict(uncached_announcements)
         uncached_announcements = uncached_announcements.set_index('date')
-        uncached_announcements = uncached_announcements[['ticker', 'when', 'market_cap_mm']]
+        uncached_announcements = uncached_announcements[['ticker', 'when']]
 
         dates_list = ['2018-01-05']
         assert('2018-01-05' not in self.cache._index_set)
@@ -62,22 +60,18 @@ class TestRuntimeCache(unittest.TestCase):
         expected_df = {'date': ['2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04',
                                 '2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05',
                                 '2018-01-05', '2018-01-05', '2018-01-05'],
-                       'market_cap_mm': [2495, 357, 4867, 1387, 536, 3519, 56, 868, 326, 9683, 400, 2598, 9031,
-                                         1327, 72337],
                        'ticker': ['CMC', 'LNDC', 'NEOG', 'RAD', 'RECN', 'UNF', 'AEHR', 'ANGO', 'FC', 'LW', 'PKE',
                                   'PSMT', 'RPM', 'SONC', 'WBA'],
                        'when': ['bmo', 'amc', 'bmo', 'amc', 'amc', 'bmo', 'amc', 'bmo', 'amc', 'bmo', 'bmo', 'amc',
                                 'bmo', 'amc', 'bmo']}
         expected_df = pd.DataFrame.from_dict(expected_df)
         expected_df = expected_df.set_index('date')
-        expected_df = expected_df[['ticker', 'when', 'market_cap_mm']]
+        expected_df = expected_df[['ticker', 'when']]
 
         assert(actual_df.index.equals(expected_df.index))
         assert ('2018-01-05' in self.cache._index_set)
         assert(actual_df['ticker'].equals(expected_df['ticker']))
         assert(actual_df['when'].equals(expected_df['when']))
-
-
 
 
 if __name__ == '__main__':
