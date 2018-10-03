@@ -1,6 +1,8 @@
 import ecal
 import time
 
+ecal.default_cache = ecal.SqliteCache()
+
 print('Getting the earnings announcements for a date range and cache it.')
 print('This first call will take ~ 8 seconds...')
 pre_call_time = time.time()

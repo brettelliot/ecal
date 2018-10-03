@@ -2,12 +2,12 @@ import pandas as pd
 from .abstract_cache import AbstractCache
 
 __all__ = [
-    'RuntimeCache'
+    'SqliteCache'
 ]
 
 
-class RuntimeCache(AbstractCache):
-    """RuntimeCache keeps a DataFrame of earnings announcements in memory so that repeated calls to ecal.get are fast.
+class SqliteCache(AbstractCache):
+    """SqliteCache provides persistent storage for earnings announcements so repeated calls to ``ecal.get`` are fast.
 
         Attributes:
             _cache_df (DataFrame): DataFrame storing all the earnings announcements that have been fetched.
