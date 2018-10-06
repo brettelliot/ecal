@@ -5,6 +5,7 @@ from .abstract_fetcher import AbstractFetcher
 from .runtime_cache import AbstractCache
 from .ecn_fetcher import ECNFetcher
 from .runtime_cache import RuntimeCache
+from .sqlite_cache import SqliteCache
 
 """
 Some global vars. 
@@ -19,6 +20,7 @@ __all__ = [
     'ECNFetcher',
     'AbstractCache',
     'RuntimeCache',
+    'SqliteCache'
 ]
 
 

@@ -1,7 +1,7 @@
 What is ecal?
 -------------
 
-``ecal`` A package for getting a US equity earnings announcement calendar.
+``ecal`` is a package for getting a US equity earnings announcement calendar.
 
 For more documentation, please see http://ecal.readthedocs.io.
 
