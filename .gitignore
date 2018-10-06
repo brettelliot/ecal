@@ -114,3 +114,4 @@ cache.sqlite
 
 # project files
 ecal.db
+ecal_test.db

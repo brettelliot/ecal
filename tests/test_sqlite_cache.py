@@ -2,6 +2,7 @@ import unittest
 import tempfile
 import ecal
 import pandas as pd
+from pandas.util.testing import assert_frame_equal
 
 
 class TestSqliteCache(unittest.TestCase):
@@ -141,4 +142,25 @@ class TestSqliteCache(unittest.TestCase):
         actual = c.fetchall()
         self.assertListEqual(actual, expected)
 
+    def test_fetch_calendar(self):
 
+        # Given an SqliteCache with some data
+        f = tempfile.NamedTemporaryFile()
+        cache = ecal.SqliteCache(f.name)
+
+        missing_dates = ['2018-01-01', '2018-01-02', '2018-01-03', '2018-01-04', '2018-01-05']
+
+        uncached_announcements = {'ticker': ['AEHR', 'ANGO', 'FC', 'LW', 'PKE', 'PSMT', 'RPM', 'SONC', 'WBA'],
+                       'when': ['amc', 'bmo', 'amc', 'bmo', 'bmo', 'amc', 'bmo', 'amc', 'bmo'],
+                       'date': ['2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05',
+                                '2018-01-05', '2018-01-05', '2018-01-05']}
+        uncached_announcements_df = pd.DataFrame.from_dict(uncached_announcements)
+        uncached_announcements_df = uncached_announcements_df.set_index('date')
+        uncached_announcements_df = uncached_announcements_df[['ticker', 'when']]
+        cache.add(missing_dates, uncached_announcements_df)
+
+        # When we try and fetch data
+        actual = cache.fetch_calendar('2018-01-01', '2018-01-05')
+
+        # Then we get a dataframe containing it.
+        assert_frame_equal(actual, uncached_announcements_df)

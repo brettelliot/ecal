@@ -180,6 +180,10 @@ class SqliteCache(AbstractCache):
             uncached_announcements (DataFrame): A Dataframe containing uncached announcements that should be added
               to the cache.
         """
+
+        if not missing_dates:
+            return
+
         #
         # add all the dates cached_dates table
         #
@@ -237,4 +241,16 @@ class SqliteCache(AbstractCache):
         if end_date_str is None:
             end_date_str = start_date_str
 
-        return self._cache_df[start_date_str:end_date_str]
+        # Create a query like this one:
+        # SELECT * FROM announcements WHERE date between '2018-01-01' AND '2018-01-05';
+        values = (start_date_str, end_date_str)
+        sql = "SELECT * FROM announcements WHERE date BETWEEN ? AND ?;"
+
+        try:
+            df = pd.read_sql(sql, self._conn, index_col='date', params=values)
+            df.rename(columns={'period': 'when'}, inplace=True)
+        except Exception as e:
+            print(e)
+            # create an empty dataframe to return
+            df = pd.DataFrame({'A': []})
+        return df
