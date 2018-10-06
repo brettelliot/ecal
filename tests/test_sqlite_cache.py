@@ -1,6 +1,7 @@
 import unittest
 import tempfile
 import ecal
+import pandas as pd
 
 
 class TestSqliteCache(unittest.TestCase):
@@ -102,6 +103,41 @@ class TestSqliteCache(unittest.TestCase):
         expected = [('2018-01-01',), ('2018-01-02',), ('2018-01-03',), ('2018-01-04',), ('2018-01-05',)]
         c = cache._conn.cursor()
         c.execute('select * from cached_dates;')
+        actual = c.fetchall()
+        self.assertListEqual(actual, expected)
+
+    def test_add_missing_dates_and_announcements(self):
+
+        # Given an SqliteCache
+        f = tempfile.NamedTemporaryFile()
+        cache = ecal.SqliteCache(f.name)
+
+        # When some missing dates and announcements are added
+        missing_dates = ['2018-01-01', '2018-01-02', '2018-01-03', '2018-01-04', '2018-01-05']
+
+        uncached_announcements = {'ticker': ['AEHR', 'ANGO', 'FC', 'LW', 'PKE', 'PSMT', 'RPM', 'SONC', 'WBA'],
+                       'when': ['amc', 'bmo', 'amc', 'bmo', 'bmo', 'amc', 'bmo', 'amc', 'bmo'],
+                       'date': ['2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05', '2018-01-05',
+                                '2018-01-05', '2018-01-05', '2018-01-05']}
+        uncached_announcements_df = pd.DataFrame.from_dict(uncached_announcements)
+        uncached_announcements_df = uncached_announcements_df.set_index('date')
+        uncached_announcements_df = uncached_announcements_df[['ticker', 'when']]
+        cache.add(missing_dates, uncached_announcements_df)
+
+        # Then they should be found in the cached_dates tables.
+        expected = [('2018-01-01',), ('2018-01-02',), ('2018-01-03',), ('2018-01-04',), ('2018-01-05',)]
+        c = cache._conn.cursor()
+        c.execute('select * from cached_dates;')
+        actual = c.fetchall()
+        self.assertListEqual(actual, expected)
+
+        # And they should be found in the announcements table
+        expected = [('2018-01-05', 'AEHR', 'amc'), ('2018-01-05', 'ANGO', 'bmo'), ('2018-01-05', 'FC', 'amc'),
+                    ('2018-01-05', 'LW', 'bmo'), ('2018-01-05', 'PKE', 'bmo'), ('2018-01-05', 'PSMT', 'amc'),
+                    ('2018-01-05', 'RPM', 'bmo'), ('2018-01-05', 'SONC', 'amc'), ('2018-01-05', 'WBA', 'bmo')]
+
+        c = cache._conn.cursor()
+        c.execute('select * from announcements;')
         actual = c.fetchall()
         self.assertListEqual(actual, expected)
 

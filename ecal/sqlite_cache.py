@@ -170,7 +170,7 @@ class SqliteCache(AbstractCache):
         missing_dates_list = df.index.tolist()
         return missing_dates_list
 
-    def add(self, missing_dates, uncached_announcements):
+    def add(self, missing_dates, uncached_announcements_df):
         """Add the uncached announcements to the cache.
 
         Args:
@@ -180,7 +180,11 @@ class SqliteCache(AbstractCache):
             uncached_announcements (DataFrame): A Dataframe containing uncached announcements that should be added
               to the cache.
         """
-        # add all the dates to the index set
+        #
+        # add all the dates cached_dates table
+        #
+
+        # First create a string for the VALUES clause
         date_list_str = self._create_string_of_rows_for_VALUES_clause(missing_dates)
 
         """
@@ -197,9 +201,23 @@ class SqliteCache(AbstractCache):
         cur.execute(sql)
         self._conn.commit()
 
-        return
-        # add the uncached announcements to the cache
-        self._cache_df = pd.concat([self._cache_df, uncached_announcements])
+        if uncached_announcements_df is None:
+            return
+
+        #
+        # Add the uncached announcements to the announcements table
+        #
+
+        # first generate a list of tuples for each row in the dataframe
+        values = list(uncached_announcements_df.itertuples())
+
+        sql = ('REPLACE INTO announcements'
+               '(date, ticker, period)'
+               'VALUES (?, ?, ?);')
+
+        cur = self._conn.cursor()
+        cur.executemany(sql, values)
+        self._conn.commit()
 
     def fetch_calendar(self, start_date_str, end_date_str=None):
         """Returns the earnings calendar from the cache as a pandas DataFrame.
