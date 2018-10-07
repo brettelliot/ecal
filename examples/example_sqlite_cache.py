@@ -8,9 +8,6 @@ f = tempfile.NamedTemporaryFile()
 print('Switch ecal to use an instance of the SqliteCache.')
 ecal.default_cache = ecal.SqliteCache(f.name)
 
-# Here's an example of passing in a read filepath
-#ecal.default_cache = ecal.SqliteCache('ecal_test.db')
-
 print('Getting the earnings announcements for a date range and cache it.')
 print('This first time this program is run it will take ~8 seconds...')
 pre_call_time = time.time()

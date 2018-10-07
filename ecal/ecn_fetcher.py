@@ -75,21 +75,17 @@ class ECNFetcher(AbstractFetcher):
                         [
                             {
                                 'ticker': 'AEHR',
-                                'market_cap_mm': 54,
                                 'when': 'amc'
                             },
                             ...
                         ]
 
+
                 *ticker*
                     is the ticker symbol on NYSE or NASDAQ.
 
-                *market_cap_mm*
-                    is the market cap of the company at the time of the API call (not at the time of the \
-                    announcement).
-
                 *when*
-                    can be: ``bmo`` which means *before market open*, ``amc`` which means *after market close* or \
+                    can be: ``bmo`` which means *before market open*, ``amc`` which means *after market close* or
                     ``--`` which means *no time reported*.
 
         """
@@ -105,16 +101,28 @@ class ECNFetcher(AbstractFetcher):
 
         try:
             raw_announcements_list = r.json()
-            transformed_announcements_list = self._transform_cap_mm_to_market_cap_mm(raw_announcements_list)
+            transformed_announcements_list = self._transform(raw_announcements_list)
             return transformed_announcements_list
         except ValueError as e:
             print(e)
             return None
 
-    def _transform_cap_mm_to_market_cap_mm(self, announcements_list):
+    def _transform(self, announcements_list):
+        """Make and transformations to the data that we need to.
+
+        Args:
+            announcements_list (list):
+                List of raw announcements from the API
+
+        Returns:
+            list:
+                List of transformed announcements.
+
+        """
         for announcement in announcements_list:
-            # The cap_mm is a string with commas like: '2,329'
-            # Get rid of the commas then convert to int.
-            announcement['market_cap_mm'] = int(announcement['cap_mm'].replace(',', ''))
+
+            # The API returns the market cap. The issue is, it's not the market cap on the date of the announcement.
+            # It's the market cap at the time of the API call. So let's just ignore it.
             announcement.pop('cap_mm', None)
+
         return announcements_list
