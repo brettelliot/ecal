@@ -113,5 +113,5 @@ __pycache__/
 cache.sqlite
 
 # project files
-config.ini
 ecal.db
+ecal_test.db

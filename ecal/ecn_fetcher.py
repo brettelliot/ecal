@@ -19,7 +19,8 @@ class ECNFetcher(AbstractFetcher):
         """
         Args:
 
-            rate_limit (float): The time (in seconds) to wait in between calls to the API.
+            rate_limit (float):
+                The time (in seconds) to wait in between calls to the API.
         """
         self._rate_limit = rate_limit
         self._last_call_time = time.time()
@@ -28,16 +29,16 @@ class ECNFetcher(AbstractFetcher):
         """Returns the earnings calendar as a pandas DataFrame.
 
         Args:
-            start_date_str (str): The start date of the earnings calendar in
-              the format ``YYYY-MM-DD``.
-            end_date_str (str): The end date of the earnings calendar in
-              the format ``YYYY-MM-DD``. If left out, we will fetch only the
-              announcements for the start date.
+            start_date_str (str):
+                The start date of the earnings calendar in the format ``YYYY-MM-DD``.
+            end_date_str (str):
+                The end date of the earnings calendar in the format ``YYYY-MM-DD``.
+                If left out, we will fetch only the announcements for the start date.
 
         Returns:
-            DataFrame: Returns a pandas DataFrame indexed by 'date',
-              that has columns: 'ticker', and 'when'
-              and a row for each announcement.
+            DataFrame:
+                Returns a pandas DataFrame indexed by ``date``, that has columns: ``ticker``, and ``when``
+                and a row for each announcement.
         """
 
         if end_date_str is None:
@@ -62,10 +63,12 @@ class ECNFetcher(AbstractFetcher):
         Return a list of earnings announcements for a date.
 
         Args:
-            date_str (str): A date in the format ``YYYY-MM-DD``
+            date_str (str):
+                A date in the format ``YYYY-MM-DD``
 
         Returns:
-            list: A list of earnings announcements for a date.
+            list:
+                A list of earnings announcements for a date.
 
                 .. code-block:: python
 
