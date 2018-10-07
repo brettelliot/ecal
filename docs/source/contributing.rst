@@ -1,3 +1,4 @@
+============
 Contributing
 ============
 This repo uses the `Git Branching Model <https://nvie.com/posts/a-successful-git-branching-model/>`_. The head of master branch should always be production ready. The head of the develop branch should contain the latest delivered development changes for the next release. Features should be created in feature branches that branch from the develop branch.
@@ -13,15 +14,15 @@ Run the tests::
 
 Creating a new feature branch from the ``develop`` branch::
 
-    $ git checkout -b be-sqlite-cache develop
+    $ git checkout -b be-feature develop
 
-Committing code to the new ``be-sqlite-cache`` branch::
+Committing code to the new ``be-feature`` branch::
 
     $ git add .
     $ git commit -am 'Commit message'
-    $ git push --set-upstream origin be-sqlite-cache
+    $ git push --set-upstream origin be-feature
 
-Committing code to an existing ``be-sqlite-cache`` branch::
+Committing code to an existing ``be-feature`` branch::
 
     $ git add .
     $ git commit -am 'Commit message'
@@ -39,26 +40,29 @@ Building the documentation (again, from the docs/ directory)::
 Incorporating a finished feature onto ``develop``::
 
     $ git checkout develop
-    $ git merge --no-ff be-sqlite-cache
+    $ git merge --no-ff be-feature
     $ git push origin develop
-    $ git branch -d be-sqlite-cache
-    $ git push origin --delete be-sqlite-cache
+    $ git branch -d be-feature
+    $ git push origin --delete be-feature
 
-Create a release branch from ``develop``, and merge it into ``master``::
+Create a release branch from ``develop``, and merge it into ``master``:
 
-    $ git checkout -b release-1.0.0 develop
+.. parsed-literal::
+
+    $ git checkout -b release-|release| develop
     $ git checkout master
-    $ git merge --no-ff release-1.0.0
+    $ git merge --no-ff release-|release|
     $ git push
-    $ git tag -a 1.0.0 -m "release 1.0.0"
-    $ git push origin 1.0.0
+    $ git tag -a |release| -m "release |release|"
+    $ git push origin |release|
 
-Merge the release branch changes back into ``develop`` so it's up to date::
+Merge the release branch changes back into ``develop`` so it's up to date:
+
+.. parsed-literal::
 
     $ git checkout develop
-    $ git merge --no-ff release-1.0.0
-    $ git branch -d release-1.0.0
-    $ git push origin --delete release-1.0.0
+    $ git merge --no-ff release-|release|
+    $ git branch -d release-|release|
 
 Generating distribution archives::
 
@@ -80,6 +84,8 @@ To test the package from test.pypi.org, create a new virtual env, install the pa
     >>> import ecal
     >>> ecal.name
     'ecal'
+    >>> quit()
+    $ deactivate
 
 Upload the package to the real pypi.org website::
 
@@ -94,3 +100,6 @@ To test the package from pypi.org, create a new virtual env, install the package
     >>> import ecal
     >>> ecal.name
     'ecal'
+    >>> quit()
+    $ deactivate
+
