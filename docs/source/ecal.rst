@@ -36,6 +36,14 @@ ecal.runtime\_cache module
     :undoc-members:
     :show-inheritance:
 
+ecal.sqlite\_cache module
+-------------------------
+
+.. automodule:: ecal.sqlite_cache
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------

@@ -13,43 +13,52 @@ Run the tests::
 
 Creating a new feature branch from the ``develop`` branch::
 
-    $ git checkout -b myfeature develop
+    $ git checkout -b be-sqlite-cache develop
 
-Committing code to the new ``myfeature`` branch::
+Committing code to the new ``be-sqlite-cache`` branch::
 
     $ git add .
     $ git commit -am 'Commit message'
-    $ git push --set-upstream origin myfeature
+    $ git push --set-upstream origin be-sqlite-cache
 
-Committing code to an existing ``myfeature`` branch::
+Committing code to an existing ``be-sqlite-cache`` branch::
 
     $ git add .
     $ git commit -am 'Commit message'
     $ git push
+
+Creating the documentation for the first time (from the docs/ directory)::
+
+    $ sphinx-quickstart
+
+Building the documentation (again, from the docs/ directory)::
+
+    $ sphinx-apidoc -f -o source/ ../ecal/
+    $ make html
 
 Incorporating a finished feature onto ``develop``::
 
     $ git checkout develop
-    $ git merge --no-ff myfeature
+    $ git merge --no-ff be-sqlite-cache
     $ git push origin develop
-    $ git branch -d myfeature
-    $ git push origin --delete myfeature
+    $ git branch -d be-sqlite-cache
+    $ git push origin --delete be-sqlite-cache
 
 Create a release branch from ``develop``, and merge it into ``master``::
 
-    $ git checkout -b release-0.0.2 develop
+    $ git checkout -b release-1.0.0 develop
     $ git checkout master
-    $ git merge --no-ff release-0.0.2
+    $ git merge --no-ff release-1.0.0
     $ git push
-    $ git tag -a 0.0.2 -m "release 0.0.2"
-    $ git push origin 0.0.2
+    $ git tag -a 1.0.0 -m "release 1.0.0"
+    $ git push origin 1.0.0
 
 Merge the release branch changes back into ``develop`` so it's up to date::
 
     $ git checkout develop
-    $ git merge --no-ff release-0.0.2
-    $ git branch -d release-0.0.2
-    $ git push origin --delete release-0.0.2
+    $ git merge --no-ff release-1.0.0
+    $ git branch -d release-1.0.0
+    $ git push origin --delete release-1.0.0
 
 Generating distribution archives::
 

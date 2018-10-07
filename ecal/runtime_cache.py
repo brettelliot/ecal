@@ -7,13 +7,15 @@ __all__ = [
 
 
 class RuntimeCache(AbstractCache):
-    """RuntimeCache keeps a DataFrame of earnings announcements so that repeated calls to ecal.get are fast.
+    """RuntimeCache keeps a DataFrame of earnings announcements in memory so that repeated calls to ecal.get are fast.
 
         Attributes:
-            _cache_df (DataFrame): DataFrame storing all the earnings announcements that have been fetched.
-            _index_set (set): Set containing all the dates that earnings announcements have been fetched for.
-              This set is needed because some days don't have earnings announcements (so they won't appear in
-              the cache.
+            _cache_df (DataFrame):
+                DataFrame storing all the earnings announcements that have been fetched.
+            _index_set (set):
+                Set containing all the dates that earnings announcements have been fetched for.
+                This set is needed because some days don't have earnings announcements
+                (so they won't appear in the cache.
     """
 
     def __init__(self):
@@ -30,10 +32,12 @@ class RuntimeCache(AbstractCache):
         """Look in the cache for dates and return the dates that aren't in the cache.
 
         Args:
-            date_list (list): The list of dates to check the cache for.
+            date_list (list):
+                The list of dates to check the cache for.
 
         Returns:
-            list: The dates from the date_list that are not in the cache.
+            list:
+                The dates from the date_list that are not in the cache.
 
         """
         missing_dates_list = []
@@ -47,11 +51,12 @@ class RuntimeCache(AbstractCache):
         """Add the uncached announcements to the cache.
 
         Args:
-            missing_dates (list): The dates that were fetched and should be added to the cache index.
-              Even dates that have no data should be added to the cache index so that if requested again, we return
-              nothing for them without using the fetcher.
-            uncached_announcements (DataFrame): A Dataframe containing uncached announcements that should be added
-              to the cache.
+            missing_dates (list):
+                The dates that were fetched and should be added to the cache index. Even dates that have no data
+                should be added to the cache index so that if requested again, we return nothing for them without
+                using the fetcher.
+            uncached_announcements (DataFrame):
+                A Dataframe containing uncached announcements that should be added to the cache.
         """
         # add all the dates to the index set
         self._index_set |= set(missing_dates)
@@ -63,16 +68,16 @@ class RuntimeCache(AbstractCache):
         """Returns the earnings calendar from the cache as a pandas DataFrame.
 
         Args:
-            start_date_str (str): The start date of the earnings calendar in
-              the format ``YYYY-MM-DD``.
-            end_date_str (str): The end date of the earnings calendar in
-              the format ``YYYY-MM-DD``. If left out, we will fetch only the
-              announcements for the start date.
+            start_date_str (str):
+                The start date of the earnings calendar in the format ``YYYY-MM-DD``.
+            end_date_str (str):
+                The end date of the earnings calendar in the format ``YYYY-MM-DD``.
+                If left out, we will fetch only the announcements for the start date.
 
         Returns:
-            DataFrame: Returns a pandas DataFrame indexed by 'date',
-              that has columns: 'ticker', and 'when'
-              and a row for each announcement.
+            DataFrame:
+                Returns a pandas DataFrame indexed by ``date``, that has columns: ``ticker``, and ``when``
+                and a row for each announcement.
         """
         if end_date_str is None:
             end_date_str = start_date_str
