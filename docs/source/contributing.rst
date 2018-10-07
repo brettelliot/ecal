@@ -27,6 +27,15 @@ Committing code to an existing ``myfeature`` branch::
     $ git commit -am 'Commit message'
     $ git push
 
+Creating the documentation for the first time (from the docs/ directory)::
+
+    $ sphinx-quickstart
+
+Building the documentation (again, from the docs/ directory)::
+
+    $ sphinx-apidoc -f -o source/ ../ecal/
+    $ make html
+
 Incorporating a finished feature onto ``develop``::
 
     $ git checkout develop

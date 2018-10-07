@@ -42,7 +42,8 @@ class SqliteCache(AbstractCache):
     """SqliteCache provides persistent storage for earnings announcements so repeated calls to ``ecal.get()`` are fast.
 
         Attributes:
-            _conn (Connection): The sqlite3 database connection.
+            _conn (Connection):
+                The sqlite3 database connection.
 
     """
 
@@ -50,7 +51,8 @@ class SqliteCache(AbstractCache):
         """"
 
             Args:
-                db_file_path (str): A string containing the file path to the sqlite database file.
+                db_file_path (str):
+                    A string containing the file path to the sqlite database file.
 
         """
 
@@ -104,10 +106,12 @@ class SqliteCache(AbstractCache):
 
 
         Args:
-            str_list (list): A list of date strings, that will be combined into a new string for VAULES
+            str_list (list):
+                A list of date strings, that will be combined into a new string for VAULES
 
         Returns:
-            str: A string that can be passed into the SQL VALUES clause to create a row for each string in str_list.
+            str:
+                A string that can be passed into the SQL VALUES clause to create a row for each string in str_list.
 
         """
         string_of_rows = ''
@@ -121,10 +125,12 @@ class SqliteCache(AbstractCache):
         """Look in the cache for dates and return the dates that aren't in the cache.
 
         Args:
-            date_list (list): The list of dates to check the cache for.
+            date_list (list):
+                The list of dates to check the cache for.
 
         Returns:
-            list: The dates from the date_list that are not in the cache.
+            list:
+                The dates from the date_list that are not in the cache.
 
         """
 
@@ -174,11 +180,12 @@ class SqliteCache(AbstractCache):
         """Add the uncached announcements to the cache.
 
         Args:
-            missing_dates (list): The dates that were fetched and should be added to the cache index.
-              Even dates that have no data should be added to the cache index so that if requested again, we return
-              nothing for them without using the fetcher.
-            uncached_announcements (DataFrame): A Dataframe containing uncached announcements that should be added
-              to the cache.
+            missing_dates (list):
+                The dates that were fetched and should be added to the cache index.
+                Even dates that have no data should be added to the cache index so that if requested again, we return
+                nothing for them without using the fetcher.
+            uncached_announcements_df (DataFrame):
+                A Dataframe containing uncached announcements that should be added to the cache.
         """
 
         if not missing_dates:
@@ -227,16 +234,16 @@ class SqliteCache(AbstractCache):
         """Returns the earnings calendar from the cache as a pandas DataFrame.
 
         Args:
-            start_date_str (str): The start date of the earnings calendar in
-              the format ``YYYY-MM-DD``.
-            end_date_str (str): The end date of the earnings calendar in
-              the format ``YYYY-MM-DD``. If left out, we will fetch only the
-              announcements for the start date.
+            start_date_str (str):
+                The start date of the earnings calendar in the format ``YYYY-MM-DD``.
+            end_date_str (str):
+                The end date of the earnings calendar in the format ``YYYY-MM-DD``.
+                If left out, we will fetch only the announcements for the start date.
 
         Returns:
-            DataFrame: Returns a pandas DataFrame indexed by 'date',
-              that has columns: 'ticker', and 'when'
-              and a row for each announcement.
+            DataFrame:
+                Returns a pandas DataFrame indexed by ``date``, that has columns: ``ticker``, and ``when``
+                and a row for each announcement.
         """
         if end_date_str is None:
             end_date_str = start_date_str

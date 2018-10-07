@@ -29,16 +29,19 @@ def get(start_date_str, end_date_str=None, fetcher=None, cache=None):
     This function returns an earnings announcement calendar as a DataFrame.
 
     Args:
-        fetcher (AbstractFetcher): The fetcher to use for downloading data. If no fetcher is provided,
-            it will use an instance of ``ECNFetcher``.
-        cache (AbstractCache): The cache to use for storing data. If no cache is provided,
+        fetcher (AbstractFetcher):
+            The fetcher to use for downloading data. If no fetcher is provided, it will use an instance of
+            ``ECNFetcher``. cache (AbstractCache): The cache to use for storing data. If no cache is provided,
             it will use an instance of ``RuntimeCache``.
-        start_date_str (str): The start date of the earnings calendar in the format ``YYYY-MM-DD``.
-        end_date_str (str): The end date of the earnings calendar in the format ``YYYY-MM-DD``. If left out,
-            we will fetch only the announcements for the start date.
+        start_date_str (str):
+            The start date of the earnings calendar in the format ``YYYY-MM-DD``.
+        end_date_str (str):
+            The end date of the earnings calendar in the format ``YYYY-MM-DD``. If left out, we will fetch only the
+            announcements for the start date.
 
     Returns:
-        DataFrame: Returns a pandas DataFrame indexed by 'date' and that has columns: 'ticker', and 'when'.
+        DataFrame:
+            Returns a pandas DataFrame indexed by ``date`` and that has columns: ``ticker``, and ``when``.
             Each row represents a single announcement. For example:
 
             .. code-block:: python
@@ -51,6 +54,7 @@ def get(start_date_str, end_date_str=None, fetcher=None, cache=None):
                 2018-01-04    RAD  amc
                 2018-01-04   RECN  amc
                 2018-01-04    UNF  bmo
+
 
     """
     if end_date_str is None:

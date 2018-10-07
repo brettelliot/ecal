@@ -19,7 +19,7 @@ Let's look at a simple example of using ``ecal``:
 
 The results will be an earnings calendar in a pandas Dataframe:
 
-.. code-block::
+.. code-block:: none
 
                ticker when
     date
@@ -38,7 +38,7 @@ Let's look at an example to get the earnings calendar for a range of dates:
 .. literalinclude:: ../../examples/example_range.py
     :language: python
 
-.. code-block::
+.. code-block:: none
 
                ticker when
     date
@@ -60,12 +60,15 @@ Let's look at an example to get the earnings calendar for a range of dates:
 
 This example will take about 8 seconds to run. This is because ``ecal`` throttles the calls to the API to prevent rate limiting.
 
-By default ``ecal`` will use a ``RuntimeCache`` to keep data in memory and make repeated calls to ``ecal.get`` go much quicker. This example demonstrates the default ``RuntimeCache``:
+Caching
+-------
+
+``ecal`` supports caching so that repeated calls don't actually make server calls. This is important as the source APIs are throttled, at approximately one second per call. By default ``ecal`` will use a ``RuntimeCache`` to keep data in memory and make repeated calls to ``ecal.get`` go much quicker. This example demonstrates the default ``RuntimeCache``:
 
 .. literalinclude:: ../../examples/example_runtime_cache.py
     :language: python
 
-.. code-block::
+.. code-block:: none
 
     Getting the earnings announcements for a date range and cache it.
     This first call will take ~ 8 seconds...
@@ -113,5 +116,9 @@ By default ``ecal`` will use a ``RuntimeCache`` to keep data in memory and make 
     Columns: [ticker, when]
     Index: []
 
+``ecal`` supports using other cache systems by deriving from ``AbstractCache``. ``ecal`` comes with a persistent cache that uses SQLite called ``SQLiteCache``. Using it is very easy:
 
-``ecal`` supports using other cache systems by deriving from ``AbstractCache``. ``ecal`` comes with a persistent cache that uses SQLite called ``SQLiteCache``.
+.. literalinclude:: ../../examples/example_sqlite_cache.py
+    :language: python
+
+
