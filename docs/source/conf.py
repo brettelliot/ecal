@@ -25,9 +25,12 @@ copyright = '2018, Brett Elliot'
 author = 'Brett Elliot'
 
 # The short X.Y version
-version = '1.0.1'
+#version = '1.0.1'
+version_file = open(os.path.join('../../', 'VERSION'))
+version = version_file.read().strip()
+
 # The full version, including alpha/beta/rc tags
-release = '1.0.1'
+release = version
 
 
 # -- General configuration ---------------------------------------------------

@@ -1,11 +1,16 @@
 import setuptools
+import os
 
 with open('README.rst', 'r') as fh:
     long_description = fh.read()
 
+
+version_file = open(os.path.join('./', 'VERSION'))
+version = version_file.read().strip()
+
 setuptools.setup(
     name='ecal',
-    version='1.0.1',
+    version=version,
     author='Brett Elliot',
     author_email='brett@theelliots.net',
     description='A package for getting a US equity earnings announcement calendar.',
