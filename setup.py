@@ -5,7 +5,7 @@ with open('README.rst', 'r') as fh:
 
 setuptools.setup(
     name='ecal',
-    version='1.0.0',
+    version='1.0.1',
     author='Brett Elliot',
     author_email='brett@theelliots.net',
     description='A package for getting a US equity earnings announcement calendar.',

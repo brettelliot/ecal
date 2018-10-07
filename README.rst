@@ -1,5 +1,6 @@
+=============
 What is ecal?
--------------
+=============
 
 ``ecal`` is a package for getting a US equity earnings announcement calendar.
 
@@ -12,12 +13,19 @@ Installation
 
     $ pip install ecal
 
-Quickstart
-----------
+Usage
+-----
+``ecal`` is really simple to use. Below you'll find the basics.
+
+Getting the earnings announcements for a single date
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To get the earnings announcements for a single date simply import ``ecal`` and call ``get()``:
 
 .. code-block:: python
 
     import ecal
+
     cal_df = ecal.get('2017-03-30')
 
 The results will be an earnings calendar in a pandas Dataframe:
@@ -35,22 +43,56 @@ The results will be an earnings calendar in a pandas Dataframe:
     2017-03-30   TITN  bmo
 
 
-    *ticker* is the ticker symbol on NYSE or NASDAQ.
+    *ticker*
+        is the ticker symbol on NYSE or NASDAQ.
 
-    *when* can be: ``bmo`` which means *before market open*, ``amc`` which means *after market close* or ``--`` which means *no time reported*.
+    *when*
+        can be: ``bmo`` which means *before market open*, ``amc`` which means *after market close* or
+        ``--`` which means *no time reported*.
+
+Getting the earnings announcements for a date range
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is equally easy to get the earnings announcements for a date range:
+
+.. code-block:: python
+
+    import ecal
+
+    cal_df = ecal.get('2018-01-01', '2018-01-05')
+
+.. code-block:: none
+
+               ticker when
+    date
+    2018-01-04    CMC  bmo
+    2018-01-04   LNDC  amc
+    2018-01-04   NEOG  bmo
+    2018-01-04    RAD  amc
+    2018-01-04   RECN  amc
+    2018-01-04    UNF  bmo
+    2018-01-05   AEHR  amc
+    2018-01-05   ANGO  bmo
+    2018-01-05     FC  amc
+    2018-01-05     LW  bmo
+    2018-01-05    PKE  bmo
+    2018-01-05   PSMT  amc
+    2018-01-05    RPM  bmo
+    2018-01-05   SONC  amc
+    2018-01-05    WBA  bmo
+
+It should be noted that  ``ecal`` fetches earnings announcements from ``api.earningscalendar.net`` by default. This source limits us to 1 call per second but you don't have to worry about this because the ``ecal.ECNFetcher`` throttles calls to the API to prevent rate limiting. For information on creating your own fetchers please see http://ecal.readthedocs.io.
 
 Caching
---------
+-------
 
-``ecal`` supports caching so that repeated calls don't actually make server calls. This is important as the source APIs are throttled, at approximately one second per call. Runtime caching in enabled by default but persistent on disk caching (via sqlite) is very easily used:
+``ecal`` supports caching so that repeated calls don't actually make server calls. This is important because the default fetcher, ``ecal.ECNFetcher`` uses ``api.earningscalendar.net`` as the source and that API is rate limited, at approximately one second per call. Runtime caching in enabled by default but persistent on disk caching (via sqlite) is very easily used:
 
 .. code-block:: python
 
     import ecal
     ecal.default_cache = ecal.SqliteCache('ecal.db')
+
     cal_df = ecal.get('2017-03-30')
 
-Extension
----------
-
-``ecal`` is very easy to extend in case you want to support another caching system or even use another earnings announcement provider. For more documentation, please see http://ecal.readthedocs.io.
+``ecal`` is very easy to extend in case you want to support another caching system or even use another earnings announcement fetcher. For more documentation, please see http://ecal.readthedocs.io.

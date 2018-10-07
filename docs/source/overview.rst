@@ -12,10 +12,17 @@ Installation
 
 Usage
 -----
-Let's look at a simple example of using ``ecal``:
+``ecal`` is really simple to use. Below you'll find the basics.
 
-.. literalinclude:: ../../examples/example_single.py
-    :language: python
+Getting the earnings announcements for a single date
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To get the earnings announcements for a single date simply import ``ecal`` and call ``get()``:
+
+.. code-block:: python
+
+    import ecal
+    cal_df = ecal.get('2017-03-30')
 
 The results will be an earnings calendar in a pandas Dataframe:
 
@@ -30,6 +37,7 @@ The results will be an earnings calendar in a pandas Dataframe:
     2017-03-30    LNN  bmo
     2017-03-30   SAIC  bmo
     2017-03-30   TITN  bmo
+
 
 ``ecal.get`` uses the ``ECNFetcher`` by default. It fetches earnings announcements from ``api.earningscalendar.net1``. However, ``ecal`` supports using other fetchers by deriving from ``AbstractFetcher``.
 
