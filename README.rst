@@ -28,7 +28,7 @@ To get the earnings announcements for a single date simply import ``ecal`` and c
 
     cal_df = ecal.get('2017-03-30')
 
-The results will be an earnings calendar in a pandas Dataframe:
+The results will be an earnings calendar in a pandas DataFrame:
 
 .. code-block:: none
 
@@ -42,6 +42,8 @@ The results will be an earnings calendar in a pandas Dataframe:
     2017-03-30   SAIC  bmo
     2017-03-30   TITN  bmo
 
+
+The returned DataFrame has the following columns:
 
     *ticker*
         is the ticker symbol on NYSE or NASDAQ.
@@ -60,6 +62,8 @@ It is equally easy to get the earnings announcements for a date range:
     import ecal
 
     cal_df = ecal.get('2018-01-01', '2018-01-05')
+
+Once again the results will be an earnings calendar in a pandas Dataframe:
 
 .. code-block:: none
 
@@ -84,9 +88,11 @@ It is equally easy to get the earnings announcements for a date range:
 It should be noted that  ``ecal`` fetches earnings announcements from ``api.earningscalendar.net`` by default. This source limits us to 1 call per second but you don't have to worry about this because the ``ecal.ECNFetcher`` throttles calls to the API to prevent rate limiting. For information on creating your own fetchers please see http://ecal.readthedocs.io.
 
 Caching
--------
+~~~~~~~
 
-``ecal`` supports caching so that repeated calls don't actually make server calls. This is important because the default fetcher, ``ecal.ECNFetcher`` uses ``api.earningscalendar.net`` as the source and that API is rate limited, at approximately one second per call. Runtime caching in enabled by default but persistent on disk caching (via sqlite) is very easily used:
+``ecal`` supports caching so that repeated calls don't actually make calls to the server. This is important because the default fetcher, ``ecal.ECNFetcher`` uses ``api.earningscalendar.net`` as the source and that API is rate limited, at approximately one second per call. Runtime caching in enabled by default which means  calls during your programs execution will be cached. However, the ``ecal.RuntimeCache`` is only temporary and the next time your program runs it will call the API.
+
+Persistent on disk caching is provided via ``ecal.SqliteCache`` and can be easily enabled by setting ``ecal.default_cache`` once before calls to ``ecal.get()``:
 
 .. code-block:: python
 
@@ -95,4 +101,4 @@ Caching
 
     cal_df = ecal.get('2017-03-30')
 
-``ecal`` is very easy to extend in case you want to support another caching system or even use another earnings announcement fetcher. For more documentation, please see http://ecal.readthedocs.io.
+``ecal`` is very easy to extend in case you want to support another caching system or even create another earnings announcement fetcher. For more documentation, please see http://ecal.readthedocs.io.
