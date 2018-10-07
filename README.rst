@@ -49,8 +49,10 @@ The returned DataFrame has the following columns:
         is the ticker symbol on NYSE or NASDAQ.
 
     *when*
-        can be: ``bmo`` which means *before market open*, ``amc`` which means *after market close* or
+        can be ``bmo`` which means *before market open*, ``amc`` which means *after market close* or
         ``--`` which means *no time reported*.
+
+If there were no announcements for this day, an empty DataFrame will be returned.
 
 Getting the earnings announcements for a date range
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,7 +65,7 @@ It is equally easy to get the earnings announcements for a date range:
 
     cal_df = ecal.get('2018-01-01', '2018-01-05')
 
-Once again the results will be an earnings calendar in a pandas Dataframe:
+Once again the results will be an earnings calendar in a pandas DataFrame:
 
 .. code-block:: none
 
@@ -85,12 +87,14 @@ Once again the results will be an earnings calendar in a pandas Dataframe:
     2018-01-05   SONC  amc
     2018-01-05    WBA  bmo
 
-It should be noted that  ``ecal`` fetches earnings announcements from ``api.earningscalendar.net`` by default. This source limits us to 1 call per second but you don't have to worry about this because the ``ecal.ECNFetcher`` throttles calls to the API to prevent rate limiting. For information on creating your own fetchers please see http://ecal.readthedocs.io.
+Days with no earnings announcements will have no rows in the DataFrame. In the example above, there were no announcements on Jan first, second and third.
+
+It should be noted that ``ecal`` fetches earnings announcements from ``api.earningscalendar.net`` by default. This source limits us to 1 call per second. However you don't have to worry about this because the ``ecal.ECNFetcher`` throttles calls to the API to prevent rate limiting. That said, please note that this fetcher gets announcements one day at a time which means if you want 30 days, it's going to take 30 seconds to get that data. Yikes. Fear not... that's why ``ecal`` comes with caching.
 
 Caching
 ~~~~~~~
 
-``ecal`` supports caching so that repeated calls don't actually make calls to the server. This is important because the default fetcher, ``ecal.ECNFetcher`` uses ``api.earningscalendar.net`` as the source and that API is rate limited, at approximately one second per call. Runtime caching in enabled by default which means  calls during your programs execution will be cached. However, the ``ecal.RuntimeCache`` is only temporary and the next time your program runs it will call the API.
+``ecal`` supports caching so that repeated calls to ``ecal.get()`` don't actually make calls to the server. Runtime caching is enabled by default which means calls during your program's execution will be cached. However, the ``ecal.RuntimeCache`` is only temporary and the next time your program runs it will call the API again.
 
 Persistent on disk caching is provided via ``ecal.SqliteCache`` and can be easily enabled by setting ``ecal.default_cache`` once before calls to ``ecal.get()``:
 
@@ -101,4 +105,7 @@ Persistent on disk caching is provided via ``ecal.SqliteCache`` and can be easil
 
     cal_df = ecal.get('2017-03-30')
 
-``ecal`` is very easy to extend in case you want to support another caching system or even create another earnings announcement fetcher. For more documentation, please see http://ecal.readthedocs.io.
+Extension
+~~~~~~~~~
+
+``ecal`` is very easy to extend in case you want to support another caching system or even create an earnings announcement fetcher. For more documentation, please see http://ecal.readthedocs.io.

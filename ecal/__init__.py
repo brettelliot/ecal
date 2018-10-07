@@ -44,7 +44,7 @@ def get(start_date_str, end_date_str=None, fetcher=None, cache=None):
             Returns a pandas DataFrame indexed by ``date`` and that has columns: ``ticker``, and ``when``.
             Each row represents a single announcement. For example:
 
-            .. code-block:: python
+            .. code-block:: none
 
                            ticker when
                 date
