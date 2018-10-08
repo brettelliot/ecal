@@ -6,7 +6,7 @@ This repo uses the `Git Branching Model <https://nvie.com/posts/a-successful-git
 Create virtualenv (recommended, but not required). Then get the repo::
 
     $ git clone https://github.com/brettelliot/ecal.git
-    $ pip install -e .
+    $ pip install -e
 
 Run the tests::
 
