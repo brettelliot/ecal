@@ -89,13 +89,13 @@ class TestHttpFetcher(unittest.TestCase):
     def test_fetch_calendar_for_singe_date(self):
         expected_dict = {'ticker': ['CMC', 'LNDC', 'NEOG', 'RAD', 'RECN', 'UNF'],
                          'when': ['bmo', 'amc', 'bmo', 'amc', 'amc', 'bmo'],
-                         'date': ['2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04']}
+                         'date': ['2018-01-03', '2018-01-03', '2018-01-03', '2018-01-03', '2018-01-03', '2018-01-03']}
 
         expected_df = pd.DataFrame.from_dict(expected_dict)
         expected_df = expected_df.set_index('date')
         expected_df = expected_df[['ticker', 'when']]
 
-        actual_df = self.fetcher.fetch_calendar('2018-01-04')
+        actual_df = self.fetcher.fetch_calendar('2018-01-03')
 
         assert(actual_df.index.equals(expected_df.index))
         assert(actual_df['ticker'].equals(expected_df['ticker']))
@@ -104,14 +104,13 @@ class TestHttpFetcher(unittest.TestCase):
     def test_fetch_calendar_for_date_range(self):
         expected_dict = {'ticker': ['CMC', 'LNDC', 'NEOG', 'RAD', 'RECN', 'UNF'],
                          'when': ['bmo', 'amc', 'bmo', 'amc', 'amc', 'bmo'],
-                         'date': ['2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04', '2018-01-04']}
+                         'date': ['2018-01-03', '2018-01-03', '2018-01-03', '2018-01-03', '2018-01-03', '2018-01-03']}
 
         expected_df = pd.DataFrame.from_dict(expected_dict)
         expected_df = expected_df.set_index('date')
         expected_df = expected_df[['ticker', 'when']]
 
-        actual_df = self.fetcher.fetch_calendar('2018-01-04', '2018-01-04')
-
+        actual_df = self.fetcher.fetch_calendar('2018-01-03', '2018-01-03')
         assert(actual_df.index.equals(expected_df.index))
         assert(actual_df['ticker'].equals(expected_df['ticker']))
         assert(actual_df['when'].equals(expected_df['when']))

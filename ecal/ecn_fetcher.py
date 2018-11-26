@@ -105,7 +105,7 @@ class ECNFetcher(AbstractFetcher):
             return transformed_announcements_list
         except ValueError as e:
             print(e)
-            return None
+            return []
 
     def _transform(self, announcements_list):
         """Make and transformations to the data that we need to.
