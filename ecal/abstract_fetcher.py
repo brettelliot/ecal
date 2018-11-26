@@ -10,7 +10,7 @@ class AbstractFetcher(object):
         raise NotImplementedError('AbstractFetcher is an abstract base class')
 
     def fetch_calendar(self, start_date_str, end_date_str=None):
-        """Implement this method! Your method should returns pandas DataFrame.
+        """Implement this method! Your method should return a pandas DataFrame.
 
         Args:
             start_date_str (str):
