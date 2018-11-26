@@ -6,11 +6,15 @@ This repo uses the `Git Branching Model <https://nvie.com/posts/a-successful-git
 Create virtualenv (recommended, but not required). Then get the repo::
 
     $ git clone https://github.com/brettelliot/ecal.git
-    $ pip install -e
+    $ pip install -r requirements.txt
 
 Run the tests::
 
     $ python setup.py test
+
+Creating a ``develop`` branch from the ``master`` branch::
+
+    $ git checkout -b develop master
 
 Creating a new feature branch from the ``develop`` branch::
 
@@ -28,11 +32,8 @@ Committing code to an existing ``be-feature`` branch::
     $ git commit -am 'Commit message'
     $ git push
 
-Creating the documentation for the first time (from the docs/ directory)::
 
-    $ sphinx-quickstart
-
-Building the documentation (again, from the docs/ directory)::
+Building the documentation (from the docs/ directory)::
 
     $ sphinx-apidoc -f -o source/ ../ecal/
     $ make html
